@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Изменение публикации {% endblock %}
+
+{% block content %}
+	<h2> Изменение публикации </h2>
+	<form method='post'>
+		{{form.media}}
+		{{form.as_p}}
+		{% csrf_token %}
+		<p><input type="submit" value="Обновить публикацию"></p>
+	</form>
+{% endblock %}

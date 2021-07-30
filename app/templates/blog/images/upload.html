@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Загрузить изображение{% endblock %}
+
+{% block content %} 
+	<form method='post' enctype="multipart/form-data" >
+		{{ form.as_p }}
+		{% csrf_token %}
+		<p><input type="submit" value="Загрузить"></p>
+	</form>
+
+	{% if img_obj  %}
+		<h3>Успешно загружено: {{ img_obj.title }}</h3>
+		<div class="img_review">
+			<img src="{{ img_obj.image.url  }}"  alt="..." style="max-height: 300px">
+		</div>
+		<p>Сохраните ссылку для использования изображения:</p>
+		<p>{{ img_obj.image.url  }}</p>
+	{% endif %}
+{% endblock %}

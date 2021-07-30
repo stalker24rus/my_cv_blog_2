@@ -1,0 +1,27 @@
+{% extends "blog/base.html"  %}
+
+{% block title %}Log-in{% endblock %}
+
+{% block content %}
+    <h1>Log-in</h1>
+    {% if form.errors  %}
+	<p>
+	    Имя пользователя и пароль не совпадают.
+            Попытайтесь снова.
+	</p>
+    {% else  %}
+	<p>
+	Пожалуйста используйте форму для входа ниже:
+	</p>
+    {% endif  %}
+    <div class="form-login"> 
+	    <form action="/blog/login/" method="post">
+	    {{ form.as_p }}
+	    {% csrf_token %}
+	    <input type="hidden" name="text" value="{{ next }}">
+	    <p><input type="submit" value="войти"></p>
+	</form>
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,84 @@
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title> Блог Евгения Яковенко </title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/styles/monokai-sublime.min.css">
+    <link href="{% static "css/blog.css"%}" rel="stylesheet">
+    <link href="{% static "css/all-nocdn.css" %}" rel="stylesheet" type="text/css">
+    <meta name="theme-color" content="#5670d4">
+    <meta name="author" content="Евгений Яковенко">
+    <link rel="stylesheet" href="{% static "css/all.css" %}" crossorigin="anonymous">
+    <link href="{% static "css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<header id="blog_header">
+    <div  id="header_logo">
+	    <p id="brand" class="display-1"><h2>[<a href="/"><font color="red"> Я</font></a>: <a href="/blog">blog </a>]</h2></p>
+    </div>
+    <div id="menu_header">
+        <div id="menu_links">
+            {% if request.path != "/blog/" %}
+	    <p1><a href="/blog">[к списку постов]</a>  </p1>
+            {% endif %}
+	    <p1><a href="/blog/search/">[поиск по блогу]</a></p1>
+            <p1><a href="/">[назад к сайту]</a></p1>
+	    {% if request.user.is_authenticated  %}
+	    <p1>
+	       <div id="auth_bar">
+	       	 Вход под [{{ request.user.username }}]
+	       	 <a href="/blog/logout">[logout]</a>
+	       </div>
+	    </p1>
+	       <div id="tools">
+	        <p>
+		   <a href="{% url "blog:post_add" %}">
+			<font color="red">[Добавить пост]</font>
+		   </a>
+		</p>
+
+            {% else  %}
+	    <p1><a href="/blog/login">[&crarr;]</a></p1>
+	    {% endif  %}
+	</div>
+    </div>
+</header>
+
+    <div>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="sidebar">
+            <h4>Последние посты</h4>
+            {% show_latest_posts 3 %}
+
+            <h4>Наиболее комментируемые посты</h4>
+            {% get_most_commented_posts as most_commented_posts %}
+            <ul>
+                {% for post in most_commented_posts %}
+                    <li>
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <footer>
+
+	    <p1 align="right">всего постов: {% total_posts %} | <a href="{% url "blog:post_feed" %}">RSS рассылка</a></p1>
+
+        <div class="footer-basic">
+		<p><font color="red">Work in progress</font></p>
+                <p class="copyright">©Copyright 2021 Евгений Яковенко</p>
+        </div>
+    </footer>
+</body>
+
+</html>

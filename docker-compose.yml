@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PW}
+
+  web:
+    build: .
+    volumes:
+    - .:/usr/src/app
+    # - www/env/settings/system:/etc/systemd/system
+    environment:
+      DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
+      DJANGO_ENV_EMAIL_HOST: ${DJANGO_ENV_EMAIL_HOST}
+      DJANGO_ENV_EMAIL_PORT: ${DJANGO_ENV_EMAIL_PORT}
+      DJANGO_ENV_EMAIL_HOST_USER: ${DJANGO_ENV_EMAIL_HOST_USER}
+      DJANGO_ENV_EMAIL_HOST_PASSWORD: ${DJANGO_ENV_EMAIL_HOST_PASSWORD}
+      POSTGRES_DB: ${DB_NAME} 
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PW}  
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 django3byexample.wsgi
+    ports:
+      - "80:8000"
+    depends_on:
+      - db

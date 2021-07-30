@@ -1,0 +1,76 @@
+{% load  static %}
+{% load cv_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Евгений Яковенко</title>
+    <link href="{% static "css/all-nocdn.css" %}" rel="stylesheet" type="text/css">
+    <meta name="theme-color" content="#5670d4">
+    <meta name="author" content="Евгений Яковенко">
+    <link rel="stylesheet" href="{% static "css/all.css" %}" crossorigin="anonymous">
+    <link href="{% static "css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+
+    <div id="container">
+        <header id="header">
+            <!--img src="{% static "media/ieg.png" %}" alt=""-->
+             <p id="brand" class="display-1">
+                <a href="" title="Евгений Яковенко" rel="home">
+                <span id="blog-title">Евгений Яковенко</span>
+                </a>
+            </p>
+            <nav>
+                <ul class="nav justify-content-center">
+                    <li class="nav-link">
+                         <a href="/about/">Человек</a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/engineer/">Специалист АСУ ТП</a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/developer/">Python-developer</a>
+                    </li>
+
+                    <!--li class="nav-link">
+                        <a href="/portfolio/">Портфолио</a>
+                    </li-->
+
+                    <li class="nav-link">
+                        <a href="/blog/">Блог</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="content" class="page"><hr style="margin-bottom: 50px">
+            <article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article">
+                <div class="e-content entry-content" itemprop="articleBody text">
+                    <div id="content">
+                        {% block content %}
+                            {{ text_body|markdown }}
+                        {% endblock %}
+                    </div>
+                </div>
+                <!--hr class="mt-5 mb-5"--->
+                <div>
+                </div>
+            </article>
+            <hr style="margin-top: 50px">
+        </main>
+        <nav>
+            <ul class="nav justify-content-center"></ul>
+        </nav>
+            <footer>
+                <!--p>Я, Евгений Яковенко, магистр технических наук, разработчик, инженер, а также фотолюбитель, проживающий в городе Красноярске, Россия</p-->
+                <p>©Copyright 2021 Евгений Яковенко</p>
+            </footer>
+        </div>
+</body>
+</html>

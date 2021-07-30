@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Добавление нового поста {% endblock %}
+
+{% if messages  %}
+	<ul class="messages">
+		{% for message in messages  %}
+		<li class="{{ message.tags  }}">
+			{{message|safe}}
+			<a href="#" class="close">x</a>
+		</li>	
+		{% endfor %}
+	</ul>
+{% endif  %}
+
+{% block content  %}
+	<h2>Добавление нового поста</h2>
+	<form method='post'>
+		{{form.media}}
+		{{form.as_p}}
+		{% csrf_token %}
+		<p><input type="submit" value="Добавить пост"></p>
+	</form>	
+{% endblock %}

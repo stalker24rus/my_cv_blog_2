@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+/env
+*.log
+todo.txt
+technotes.txt
+DockerPostgre
+env_value.txt
+.env
+.idea
+.DS_Store 
