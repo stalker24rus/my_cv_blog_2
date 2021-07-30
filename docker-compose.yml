@@ -11,10 +11,10 @@ services:
       POSTGRES_PASSWORD: ${DB_PW}
 
   web:
-    build: .
+    build: ./app
     volumes:
-    - .:/usr/src/app
-    # - www/env/settings/system:/etc/systemd/system
+     - ./app:/usr/src/app
+     - static_volume:/usr/src/app/django3byexample/static/
     environment:
       DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
       DJANGO_ENV_EMAIL_HOST: ${DJANGO_ENV_EMAIL_HOST}
@@ -26,7 +26,19 @@ services:
       POSTGRES_PASSWORD: ${DB_PW}  
     # command: python manage.py runserver 0.0.0.0:8000
     command: gunicorn --bind 0.0.0.0:8000 django3byexample.wsgi
-    ports:
-      - "80:8000"
+    expose:
+      - 8000
     depends_on:
       - db
+
+  nginx:
+     build: ./nginx
+     volumes:
+      - static_volume:/usr/src/app/django3byexample/static/       
+     ports:
+      - 1337:80
+     depends_on:
+      - web
+  
+volumes:
+  static_volume:
