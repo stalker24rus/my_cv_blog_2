@@ -5,8 +5,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from blog.sitemaps import PostSitemap
 from cv import views as site_views
-from django.views.generic import RedirectView
-
+from django.views.generic.base import RedirectView
+# from django.contrib.staticfiles.storage import staticfiles_storage
 
 sitemaps = {
     'posts': PostSitemap
@@ -20,9 +20,10 @@ urlpatterns = [
     path('engineer/', site_views.engineer, name='engineer'),
     path('portfolio/', site_views.portfolio, name='portfolio'),
     path('', include('cv.urls',  namespace='cv')),
-    path('admin/', admin.site.urls),
+    path('a275bcbfc9d2/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap'),
-    path(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico', permanent=True)),
+    # TODO Need solve why do not work that code. Need logging ON on gunicorn and nginx
+    path('favicon.ico', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
