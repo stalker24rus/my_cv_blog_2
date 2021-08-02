@@ -124,12 +124,14 @@ USE_TZ = True
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+WWW_ROOT = '/usr/src/www/'
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
+STATIC_ROOT = os.path.join(WWW_ROOT, 'static')
 MEDIA_URL = '/media/'  # base url to serve media files
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')  # Path where media is stored
+MEDIA_ROOT = os.path.join(WWW_ROOT, 'media')  # Path where media is stored
 STATICFILES_DIRS = (
-        os.path.join(PROJECT_ROOT, 'assets'),
+        os.path.join(WWW_ROOT, 'assets'),
         )
 
 

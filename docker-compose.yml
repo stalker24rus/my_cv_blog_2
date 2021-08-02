@@ -14,7 +14,8 @@ services:
     build: ./app
     volumes:
      - ./app:/usr/src/app
-     - static_volume:/usr/src/app/django3byexample/static/
+     # - static_volume:/usr/src/app/django3byexample/static/
+     - /usr/src/www:/usr/src/www
     environment:
       DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
       DJANGO_ENV_EMAIL_HOST: ${DJANGO_ENV_EMAIL_HOST}
@@ -34,11 +35,12 @@ services:
   nginx:
      build: ./nginx
      volumes:
-      - static_volume:/usr/src/app/django3byexample/static/       
+      # - static_volume:/usr/src/app/django3byexample/static/       
+      - /usr/src/www:/usr/src/www
      ports:
       - 80:80
      depends_on:
       - web
   
-volumes:
-  static_volume:
+# volumes:
+# static_volume:
