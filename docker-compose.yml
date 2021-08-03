@@ -14,7 +14,6 @@ services:
     build: ./app
     volumes:
      - ./app:/usr/src/app
-     # - static_volume:/usr/src/app/django3byexample/static/
      - /usr/src/www:/usr/src/www
     environment:
       DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
@@ -25,8 +24,7 @@ services:
       POSTGRES_DB: ${DB_NAME} 
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}  
-    # command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn --bind 0.0.0.0:8000 django3byexample.wsgi
+    command: gunicorn --bind 0.0.0.0:8000 django3byexample.wsgi  # python manage.py collectstatic
     expose:
       - 8000
     depends_on:
@@ -34,9 +32,9 @@ services:
 
   nginx:
      build: ./nginx
-     volumes:
-      # - static_volume:/usr/src/app/django3byexample/static/       
+     volumes:      
       - /usr/src/www:/usr/src/www
+      - /usr/src/www/log/nginx:/var/log/nginx
      ports:
       - 80:80
      depends_on:
