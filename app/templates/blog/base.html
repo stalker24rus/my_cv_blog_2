@@ -48,7 +48,8 @@
             {% else  %}
 	    <p1><a href="/blog/login">[&crarr;]</a></p1>
 	    {% endif  %}
-	</div>
+	    <hr>
+        </div>
     </div>
 </header>
 
@@ -57,7 +58,8 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div id="sidebar">
+        <!--
+	<div id="sidebar">
             <h4>Последние посты</h4>
             {% show_latest_posts 3 %}
 
@@ -71,6 +73,7 @@
                 {% endfor %}
             </ul>
         </div>
+	-->
     </div>
     <footer>
 
