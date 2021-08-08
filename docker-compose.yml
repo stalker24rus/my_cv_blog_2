@@ -29,7 +29,7 @@ services:
       POSTGRES_DB: ${DB_NAME} 
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}  
-    command: gunicorn django3byexample.wsgi -c ./config/gunicorn/gunicorn.conf.py  # python manage.py collectstatic
+    command: gunicorn mysite.wsgi -c ./config/gunicorn/gunicorn.conf.py  # python manage.py collectstatic
     expose:
       - 8000
     depends_on:
