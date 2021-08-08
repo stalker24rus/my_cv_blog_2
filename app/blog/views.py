@@ -1,3 +1,5 @@
+import logging
+from core.views import exception_catcher
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -16,13 +18,20 @@ from django.db.models import Count
 from django.contrib.postgres.search import TrigramSimilarity
 
 
+logger = logging.getLogger(__name__)
+MSG_500 = "Возникла ошибка сервера. Мы извещены об этом и как можно быстрее \
+        приступим к ее устранению."
+ERR_500 = HttpResponse(MSG_500)
+
+
 class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = 'posts'
-    paginate_by = 3
+    paginate_by = 5
     template_name = 'blog/post/list.html'
 
 
+@exception_catcher(logger, ERR_500) 
 def post_list(request, tag_slug=None):
     # posts = Post.published.all()
     object_list = Post.published.all()
@@ -31,9 +40,8 @@ def post_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tags__in=[tag])
 
-    paginator = Paginator(object_list, 3)  # posts in each page
+    paginator = Paginator(object_list, 5)  # posts in each page
     page = request.GET.get('page')
-
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -50,6 +58,7 @@ def post_list(request, tag_slug=None):
                    'tag': tag})
 
 
+@exception_catcher(logger, ERR_500)
 def post_detail(request, year, month, day, author, post):
     post = get_object_or_404(Post,
                              slug=post,
@@ -59,7 +68,6 @@ def post_detail(request, year, month, day, author, post):
                              publish__day=day,
                              # author=author,
                              )
-
     # List of active comment for this post
     comments = post.comments.filter(active=True)
     new_comment = None
@@ -90,6 +98,7 @@ def post_detail(request, year, month, day, author, post):
                    })
 
 
+@exception_catcher(logger, ERR_500) 
 def post_share(request, post_id):
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status='published')
@@ -117,6 +126,7 @@ def post_share(request, post_id):
                                                     'sent': sent})
 
 
+@exception_catcher(logger, ERR_500)     
 def post_search(request):
     form = SearchForm()
     query = None
@@ -127,10 +137,9 @@ def post_search(request):
             query = form.cleaned_data['query']
             search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
             search_query = SearchQuery(query)
-
             results = Post.published.annotate(
                 similarity=TrigramSimilarity('title', query),
-            ).filter(similarity__gt=0.1).order_by('-similarity')
+            ).filter(similarity__gt=0.3).order_by('-similarity')
 
     return render(request,
                   'blog/post/search.html',
@@ -139,6 +148,7 @@ def post_search(request):
                    'results': results})
 
 
+@exception_catcher(logger, ERR_500) 
 @login_required
 def post_add(request):
     form = PostForm()
@@ -159,13 +169,12 @@ def post_add(request):
                       {'form': form})
 
 
+@exception_catcher(logger, ERR_500) 
 @login_required
 def post_change(request, post_id):
     """Change data of Post in database"""
     post = Post.objects.get(id=post_id)
     form = PostForm(instance=post)
-    
-    print('Request method is: ', request.method)
 
     if request.method == 'POST':
         if post.author.id == request.user.id:
@@ -196,6 +205,7 @@ def post_change(request, post_id):
                       {'form': form})
 
 
+@exception_catcher(logger, ERR_500) 
 @login_required
 def post_delete(request, post_id):
     """Delete post by id. Check owner """
@@ -206,6 +216,7 @@ def post_delete(request, post_id):
     return HttpResponseRedirect('/blog')
 
 
+@exception_catcher(logger, ERR_500) 
 @login_required
 def upload_image(request):
     if request.method == 'POST':

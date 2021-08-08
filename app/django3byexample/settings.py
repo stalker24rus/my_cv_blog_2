@@ -1,15 +1,14 @@
 import os
 from pathlib import Path
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+LOG_PATH = os.getenv('DJANGO_ENV_LOG_PATH')
+WWW_ROOT = os.getenv('DJANGO_ENV_WWW_PATH')
 
 SECRET_KEY = os.getenv('DJANGO_ENV_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost',
@@ -70,24 +69,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django3byexample.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'db',  # add for external db localhost
-        'PORT': '5432'        # add for external db
+        'HOST': 'db',
+        'PORT': '5432'
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,10 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -118,25 +105,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-WWW_ROOT = '/usr/src/www/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(WWW_ROOT, 'static')
-MEDIA_URL = '/media/'  # base url to serve media files
-MEDIA_ROOT = os.path.join(WWW_ROOT, 'media')  # Path where media is stored
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(WWW_ROOT, 'media')
 STATICFILES_DIRS = (
         os.path.join(WWW_ROOT, 'assets'),
         )
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = os.getenv('DJANGO_ENV_EMAIL_HOST')
@@ -148,7 +125,6 @@ EMAIL_USE_TLS = True
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# AUTH
 LOGIN_REDIRECT_URL = '/blog'
 LOGIN_URL='/blog/login'
 LOGOUT_URL='/blog/logout'
@@ -166,4 +142,49 @@ CKEDITOR_CONFIGS = {
 
 }
 
-
+LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'basic_formatter': {
+                'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s'
+            },
+        },
+        'handlers': {
+            'main': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': LOG_PATH + 'main.log',
+                'formatter': 'basic_formatter',
+            },
+            'cv':{
+                'level': 'WARNING',
+                'class': 'logging.FileHandler',
+                'filename': LOG_PATH + 'cv.log',
+                'formatter': 'basic_formatter',
+            },
+            'blog':{
+                'level': 'WARNING',
+                'class': 'logging.FileHandler',
+                'filename': LOG_PATH + 'blog.log',
+                'formatter': 'basic_formatter',
+            },
+        },
+        'loggers': {
+            '':{
+                'handlers': ['main'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+            'cv':{
+                'handlers': ['cv'],
+                'level': 'WARNING',
+                'propagate': True,
+            },
+            'blog':{
+                'handlers': ['blog'],
+                'level': 'WARNING',
+                'propagate': True,
+            },
+        },
+}

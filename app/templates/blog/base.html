@@ -18,6 +18,29 @@
     <link rel="stylesheet" href="{% static "css/style2.css" %}">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5S0Z1FX8M9"></script>
+	<script>
+		  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5S0Z1FX8M9');
+	</script>
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript" >
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+			      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(83744569, "init", {
+	           clickmap:true,
+	           trackLinks:true,
+	           accurateTrackBounce:true
+	      });
+	</script>
+	<noscript><div><img src="https://mc.yandex.ru/watch/83744569" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 <header id="blog_header">
@@ -58,29 +81,11 @@
             {% block content %}
             {% endblock %}
         </div>
-        <!--
-	<div id="sidebar">
-            <h4>Последние посты</h4>
-            {% show_latest_posts 3 %}
-
-            <h4>Наиболее комментируемые посты</h4>
-            {% get_most_commented_posts as most_commented_posts %}
-            <ul>
-                {% for post in most_commented_posts %}
-                    <li>
-                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-	-->
     </div>
     <footer>
 
 	    <p1 align="right">всего постов: {% total_posts %} | <a href="{% url "blog:post_feed" %}">RSS рассылка</a></p1>
-
         <div class="footer-basic">
-		<p><font color="red">Work in progress</font></p>
                 <p class="copyright">©Copyright 2021 Евгений Яковенко</p>
         </div>
     </footer>

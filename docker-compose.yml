@@ -9,23 +9,27 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}
+    user: postgres
 
   web:
     build: ./app
     volumes:
-     - ./app:/usr/src/app
+     - ./app:/usr/src/app  
      - /usr/src/www:/usr/src/www
      - /var/log/gunicorn:/var/log/gunicorn
+     - /var/log/django:/var/log/django
     environment:
       DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
       DJANGO_ENV_EMAIL_HOST: ${DJANGO_ENV_EMAIL_HOST}
       DJANGO_ENV_EMAIL_PORT: ${DJANGO_ENV_EMAIL_PORT}
       DJANGO_ENV_EMAIL_HOST_USER: ${DJANGO_ENV_EMAIL_HOST_USER}
       DJANGO_ENV_EMAIL_HOST_PASSWORD: ${DJANGO_ENV_EMAIL_HOST_PASSWORD}
+      DJANGO_ENV_LOG_PATH: ${DJANGO_ENV_LOG_PATH}
+      DJANGO_ENV_WWW_PATH: ${DJANGO_ENV_WWW_PATH}
       POSTGRES_DB: ${DB_NAME} 
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}  
-    command: gunicorn django3byexample.wsgi -c gunicorn.conf.py  # gunicorn --bind 0.0.0.0:8000 django3byexample.wsgi  # python manage.py collectstatic
+    command: gunicorn django3byexample.wsgi -c ./config/gunicorn/gunicorn.conf.py  # python manage.py collectstatic
     expose:
       - 8000
     depends_on:
