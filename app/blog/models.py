@@ -8,20 +8,22 @@ from taggit.managers import TaggableManager
 from ckeditor.fields import RichTextField
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
+
     def __str__(self):
         return f'Profile for user {self.user.username}'
 
 
 class Image(models.Model):
-     title = models.CharField(max_length=200)
-     image = models.ImageField(upload_to='images/%Y/%m/%d', blank=True )  # /%m/%d removed
+    title = models.CharField(max_length=200)
+    image = models.ImageField(
+        upload_to='images/%Y/%m/%d',
+        blank=True)  # /%m/%d removed
 
-     def __str__(self):
-         return self.title
+    def __str__(self):
+        return self.title
 
 
 class PublishedManager(models.Manager):
@@ -39,7 +41,10 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='blog_posts')
     body = RichTextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -85,4 +90,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
-

@@ -23,24 +23,29 @@ def get_content(pathname: str) -> str:
 # Create your views here.
 @exception_catcher(logger, ERR_500)
 def index(request):
-    return render(request, 'cv/index.html', {'text_body': get_content('media/ru/index.md')})
+    return render(request, 'cv/index.html',
+                  {'text_body': get_content('media/ru/index.md')})
 
 
 @exception_catcher(logger, ERR_500)
 def about(request):
-    return render(request, 'cv/index.html', {'text_body': get_content('media/ru/about.md')})
+    return render(request, 'cv/index.html',
+                  {'text_body': get_content('media/ru/about.md')})
 
 
 @exception_catcher(logger, ERR_500)
 def developer(request):
-    return render(request, 'cv/index.html', {'text_body': get_content('media/ru/developer.md')})
+    return render(request, 'cv/index.html',
+                  {'text_body': get_content('media/ru/developer.md')})
 
 
 @exception_catcher(logger, ERR_500)
 def engineer(request):
-    return render(request, 'cv/index.html', {'text_body': get_content('media/ru/engineer.md')})
+    return render(request, 'cv/index.html',
+                  {'text_body': get_content('media/ru/engineer.md')})
 
 
 @exception_catcher(logger, ERR_500)
 def portfolio(request):
-    return render(request, 'cv/index.html', {'text_body': get_content('media/ru/portfolio.md')})
+    return render(request, 'cv/index.html',
+                  {'text_body': get_content('media/ru/portfolio.md')})

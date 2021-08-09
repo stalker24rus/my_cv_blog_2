@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm, SearchForm, PostForm, LoginForm, \
-        ImageForm
+    ImageForm
 from .services.add_post import add_user_post
 from taggit.models import Tag
 from django.db.models import Count
@@ -31,7 +31,7 @@ class PostListView(ListView):
     template_name = 'blog/post/list.html'
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 def post_list(request, tag_slug=None):
     # posts = Post.published.all()
     object_list = Post.published.all()
@@ -86,8 +86,11 @@ def post_detail(request, year, month, day, author, post):
 
     # List of similar posts
     post_tags_ids = post.tags.values_list('id', flat=True)
-    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+    similar_posts = Post.published.filter(
+        tags__in=post_tags_ids).exclude(
+        id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count(
+        'tags')).order_by('-same_tags', '-publish')[:4]
     return render(request,
                   'blog/post/detail.html',
                   {'post': post,
@@ -98,7 +101,7 @@ def post_detail(request, year, month, day, author, post):
                    })
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 def post_share(request, post_id):
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status='published')
@@ -126,7 +129,7 @@ def post_share(request, post_id):
                                                     'sent': sent})
 
 
-@exception_catcher(logger, ERR_500)     
+@exception_catcher(logger, ERR_500)
 def post_search(request):
     form = SearchForm()
     query = None
@@ -135,7 +138,8 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
+            search_vector = SearchVector(
+                'title', weight='A') + SearchVector('body', weight='B')
             search_query = SearchQuery(query)
             results = Post.published.annotate(
                 similarity=TrigramSimilarity('title', query),
@@ -148,7 +152,7 @@ def post_search(request):
                    'results': results})
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 @login_required
 def post_add(request):
     form = PostForm()
@@ -157,19 +161,19 @@ def post_add(request):
         form = PostForm(request.POST)
         if form.is_valid():
             add_user_post(form, request.user)
-            return HttpResponseRedirect('/blog') 
+            return HttpResponseRedirect('/blog')
         else:
             messages.error(request, 'Форма заполнена с ошибками')
             return render(request,
                           'blog/post/add.html',
                           {'form': form})
     else:
-        return render(request, 
+        return render(request,
                       'blog/post/add.html',
                       {'form': form})
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 @login_required
 def post_change(request, post_id):
     """Change data of Post in database"""
@@ -183,29 +187,29 @@ def post_change(request, post_id):
                 form.save()
                 messages.success(request, 'Публикация обновлена успешно.')
                 return render(request,
-                             'blog/post/change.html',
-                             {'form': form})
+                              'blog/post/change.html',
+                              {'form': form})
             else:
                 messages.error(request, 'Форма заполнена с ошибками')
                 return render(request,
-                             'blog/post/change.html',
-                             {'form': form})
+                              'blog/post/change.html',
+                              {'form': form})
         else:
             msg_text = 'Вам запрещено изменять эту публикацию.'\
                        'Вы не являетесь владельцем этой публикации.'
-            messages.error(request,msg_text)
+            messages.error(request, msg_text)
 
-            return render(request, 
-                         'blog/post/change.html',
-                         {'form': form})
+            return render(request,
+                          'blog/post/change.html',
+                          {'form': form})
 
     else:
-        return render(request, 
+        return render(request,
                       'blog/post/change.html',
                       {'form': form})
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 @login_required
 def post_delete(request, post_id):
     """Delete post by id. Check owner """
@@ -216,7 +220,7 @@ def post_delete(request, post_id):
     return HttpResponseRedirect('/blog')
 
 
-@exception_catcher(logger, ERR_500) 
+@exception_catcher(logger, ERR_500)
 @login_required
 def upload_image(request):
     if request.method == 'POST':
@@ -224,15 +228,15 @@ def upload_image(request):
         if form.is_valid():
             form.save()
             img_obj = form.instance
-            return render(request, 
-                          'blog/images/upload.html', 
-                          {'form': form, 
+            return render(request,
+                          'blog/images/upload.html',
+                          {'form': form,
                            'img_obj': img_obj
-                          }
-                         )
+                           }
+                          )
     else:
         form = ImageForm()
         return render(request,
                       'blog/images/upload.html',
                       {'form': form}
-                     )
+                      )

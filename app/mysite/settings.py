@@ -33,7 +33,7 @@ INSTALLED_APPS = [
 
     'blog.apps.BlogConfig',
     'cv.apps.CvConfig',
-    
+
     'taggit',
     'ckeditor',
 ]
@@ -53,8 +53,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,8 +111,8 @@ STATIC_ROOT = os.path.join(WWW_ROOT, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(WWW_ROOT, 'media')
 STATICFILES_DIRS = (
-        os.path.join(WWW_ROOT, 'assets'),
-        )
+    os.path.join(WWW_ROOT, 'assets'),
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = os.getenv('DJANGO_ENV_EMAIL_HOST')
@@ -126,65 +125,65 @@ EMAIL_USE_TLS = True
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_REDIRECT_URL = '/blog'
-LOGIN_URL='/blog/login'
-LOGOUT_URL='/blog/logout'
+LOGIN_URL = '/blog/login'
+LOGOUT_URL = '/blog/logout'
 
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'extraPlugins': ','.join(
-                [
-                     'codesnippet',
-                ]
-            ),
+            [
+                'codesnippet',
+            ]
+        ),
         'codeSnippet_theme': 'default',
-        }
+    }
 
 }
 
 LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'basic_formatter': {
-                'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s'
-            },
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'basic_formatter': {
+            'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s'
         },
-        'handlers': {
-            'main': {
-                'level': 'DEBUG',
-                'class': 'logging.FileHandler',
-                'filename': LOG_PATH + 'main.log',
-                'formatter': 'basic_formatter',
-            },
-            'cv':{
-                'level': 'WARNING',
-                'class': 'logging.FileHandler',
-                'filename': LOG_PATH + 'cv.log',
-                'formatter': 'basic_formatter',
-            },
-            'blog':{
-                'level': 'WARNING',
-                'class': 'logging.FileHandler',
-                'filename': LOG_PATH + 'blog.log',
-                'formatter': 'basic_formatter',
-            },
+    },
+    'handlers': {
+        'main': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': LOG_PATH + 'main.log',
+            'formatter': 'basic_formatter',
         },
-        'loggers': {
-            '':{
-                'handlers': ['main'],
-                'level': 'INFO',
-                'propagate': True,
-            },
-            'cv':{
-                'handlers': ['cv'],
-                'level': 'WARNING',
-                'propagate': True,
-            },
-            'blog':{
-                'handlers': ['blog'],
-                'level': 'WARNING',
-                'propagate': True,
-            },
+        'cv': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': LOG_PATH + 'cv.log',
+            'formatter': 'basic_formatter',
         },
+        'blog': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': LOG_PATH + 'blog.log',
+            'formatter': 'basic_formatter',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['main'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'cv': {
+            'handlers': ['cv'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'blog': {
+            'handlers': ['blog'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
 }

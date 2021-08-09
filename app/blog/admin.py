@@ -28,4 +28,3 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'image')
     list_filter = ('title',)
     search_fields = ('title',)
-
