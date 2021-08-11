@@ -16,3 +16,6 @@ COPY ./config/gunicorn /usr/src/config/gunicorn
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
+RUN useradd appuser && chown -R appuser /usr/src/app
+USER appuser

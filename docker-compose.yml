@@ -14,7 +14,7 @@ services:
   web:
     build: ./app
     volumes:
-     - ./app:/usr/src/app  
+     #- ./app:/usr/src/app  
      - /usr/src/www:/usr/src/www
      - /var/log/gunicorn:/var/log/gunicorn
      - /var/log/django:/var/log/django
@@ -46,6 +46,3 @@ services:
       - 443:443
      depends_on:
       - web
-  
-# volumes:
-# static_volume:
