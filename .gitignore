@@ -8,4 +8,7 @@ DockerPostgre
 env_value.txt
 .env
 .idea
-.DS_Store 
+.DS_Store
+bkp_posts/
+gitstatus.txt 
+publication_plan.txt 
