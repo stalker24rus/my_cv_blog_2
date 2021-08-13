@@ -1,47 +1,48 @@
 WELLCOME!
 ---
 
-It is project of the my site with blog. Site Powered on Django framework. 
+It is project of the my site with blog. Site Powered on Django framework.  
 You need use some linux distribution kit, in my case I use remote server based on Ubuntu 20.10.  
-You can use the source code if you want for free. 
+You can use the source code if you want for free.   
 But please do not use information from my cv, and rename blog page ([ Я : blognote ]) =).  
 If you want only check how to work project without deploying to server, then see 6 paragraph.  
 
 ------------
 
-#1. Security setups
-1.0. Connect to server by SSH.
-1.1. Add new sudo user
-> $ useradd nonroot
-> $ passwd nonroot
-> New password: 
-> Retype new password: 
-> passwd: password updated successfully
+#1. Security setups  
+1.0. Connect to server by SSH.  
+1.1. Add new sudo user   
+> $ useradd nonroot   
+> $ passwd nonroot  
+> New password:  
+> Retype new password:  
+> passwd: password updated successfully  
 
 1.2. Add user to sudorer user group
 > serv:~# usermod -aG sudo stalker
 
-1.3. Check privileges
-> $ su - stalker
-> $ sudo ls -l /root
-> total 0
+1.3. Check privileges  
+> $ su - stalker  
+> $ sudo ls -l /root  
+> total 0  
 
 1.4. Add home directory with .ssh dir and authorized_keys file for nonroot user
 > $ sudo mkhomedir_helper nonroot && mkdir ~/.ssh && touch authorized_keys && vi authorized_keys
+  
 Enter the SSH public key, check connection from other the Terminal, and then do next steps.
 
-1.5.Change settings in sshd config file
-> $vi /etc/ssh/sshd_config
+1.5.Change settings in sshd config file  
+> $vi /etc/ssh/sshd_config  
 
-Search and change:
-PasswordAuthentication no
-PermitRootLogin no
-Port 55555
+Search and change:  
+PasswordAuthentication no  
+PermitRootLogin no  
+Port 55555  
+  
+Number of port maybe any.  
 
-Number of port maybe any.
-
-1.6 Restart sshd
-> $ sudo service sshd restart
+1.6 Restart sshd  
+> $ sudo service sshd restart  
 
 ------------
 
@@ -51,8 +52,9 @@ Number of port maybe any.
 > $ sudo apt-get update && sudo apt-get install -y vim zsh tmux htop git curl wget unzip zip gcc build-essential make w3m
 
 2.2. Change shell to zsh:
-> $chsh -s $(which zsh)
-Type zsh and tune zsh for you
+> $chsh -s $(which zsh)  
+
+Type zsh and tune zsh for you  
 > zsh
 
 ------------
@@ -63,11 +65,11 @@ Type zsh and tune zsh for you
 
 ------------ 
 4. Install Docker
-4.1. Prepere, install some the packages and do settings
-> $ sudo apt install apt-transport-https ca-certificates software-properties-common
-> $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-> $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-> $ sudo apt update
+4.1. Prepere, install some the packages and do settings   
+> $ sudo apt install apt-transport-https ca-certificates software-properties-common  
+> $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -  
+> $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"  
+> $ sudo apt update  
 
 4.2. Check place for download the docker package
 > $ apt-cache policy docker-ce
@@ -119,41 +121,43 @@ Type zsh and tune zsh for you
 
 7.2. Add environments values in file:
 
-> # Databse setting
-> DB_NAME=
-> DB_USER=
-> DB_PW=
-> DB_VOLUME=/var/lib/postgresql
->
-> # Django project settings
-> # For generating django secret key you can use some generator from search in google like https://djecrety.ir/ or https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django
-> DJANGO_ENV_SECRET_KEY=
-> DJANGO_ENV_EMAIL_HOST=
-> DJANGO_ENV_EMAIL_PORT=
-> DJANGO_ENV_EMAIL_HOST_USER=
-> DJANGO_ENV_EMAIL_HOST_PASSWORD=
-> DJANGO_ENV_LOG_PATH=/var/log/django/
->
-> # Path with static and media source for www on host mashine
-> PROJECT_WWW_PATH=/usr/src/www/
-> 
-> # Gunicorn settings
-> GUNICORN_LOG_PATH= /var/log/gunicorn
->
-> # Nginx
-> NGINX_LOG_PATH=/var/log/nginx
-> # If used sertificate if do not then need change file nginx/nginx.conf
-> NGINX_SSL_PATH=/etc/nginx/ssl
+> \#Databse setting 
+> DB_NAME=  
+> DB_USER=  
+> DB_PW=  
+> DB_VOLUME=/var/lib/postgresql  
+>  
+> \# Django project settings  
+> \# For generating django secret key you can use some generator from search in google  
+> \# like https://djecrety.ir/ or  
+> \# https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django  
+> DJANGO_ENV_SECRET_KEY=   
+> DJANGO_ENV_EMAIL_HOST=   
+> DJANGO_ENV_EMAIL_PORT=   
+> DJANGO_ENV_EMAIL_HOST_USER=   
+> DJANGO_ENV_EMAIL_HOST_PASSWORD=   
+> DJANGO_ENV_LOG_PATH=/var/log/django/  
+>   
+> \# Path with static and media source for www on host mashine  
+> PROJECT_WWW_PATH=/usr/src/www/  
+>   
+> \# Gunicorn settings   
+> GUNICORN_LOG_PATH= /var/log/gunicorn   
+>  
+> \# Nginx   
+> NGINX_LOG_PATH=/var/log/nginx  
+> \# If used sertificate if do not then need change file nginx/nginx.conf  
+> NGINX_SSL_PATH=/etc/nginx/ssl  
 
 7.3. After that you need create directories shown in .env with previlages on server:
 
 #TODO change paragraph and need read how corectly change privilages on dirs for working with docker volumes
 
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/nginx
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/gunicorn
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/django
-> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www
-> sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql
+> sudo chmod u=rwx,g=rwx,o=rwx /var/log/nginx  
+> sudo chmod u=rwx,g=rwx,o=rwx /var/log/gunicorn  
+> sudo chmod u=rwx,g=rwx,o=rwx /var/log/django  
+> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www  
+> sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql   
 
 8. Running project
 
