@@ -22,14 +22,20 @@ If you want only check how to work project without deploying to server, then see
 > serv:~# usermod -aG sudo nonroot
 
 1.3. Check privileges  
-> $ su - nonroot
+> $ su - nonroot   
 > $ sudo ls -l /root  
 > total 0  
 
 1.4. Add home directory with .ssh dir and authorized_keys file for nonroot user
-> $ sudo mkhomedir_helper nonroot && mkdir ~/.ssh && touch authorized_keys && vi authorized_keys
+> $ sudo mkhomedir_helper nonroot
+> $ vi ~/.ssh/authorized_keys
   
-Enter the SSH public key, check connection from other the Terminal, and then do next steps.
+Enter the SSH public key or if you already using public key by root user see steps below.
+> $ su root
+> $ cat /root/.ssh/authorized_keys > /home/nonroot/.ssh/authorized_keys
+> $ su nonroot
+
+Now check connection from other the Terminal, and then do next steps, or fix issue.
 
 1.5.Change settings in sshd config file  
 > $vi /etc/ssh/sshd_config  
@@ -116,7 +122,7 @@ Type zsh and tune zsh for you
 
 7. Prepare system for working with project   
 7.1. Create .env file with environments setting in /usr/src/apps/my_cv_blog_2  
-> $ sudo touch .env && vim .env   
+> $ sudo touch .env && sudo vim .env   
 
 7.2. Add environments values in .env-file:    
 > DB_NAME=  
@@ -151,13 +157,15 @@ After will be create and configure dirs:
 7.4. Initialize the nginx.conf file 
 
 If you use SSL the command:   
-> $ sudo ./scripts/init_nginx_conf.sh ssl prefix_crt
+> $ sudo ./scripts/init_nginx_conf.sh --ssl prefix
+
+!!!Place prefix yours sertificate prefix-file name wich you want copy to /etc/nginx/ssl.
 
 Script create ssl-dir on path /etc/nginx/ssl and create nginx.conf file with prefix for .crt-file.
 After copy your ssl sert (.crt-file) to /etc/nginx/ssl on your server.
 
 If you do not want use SSL, then do command:
-> $ sudo ./scripts/init_nginx_conf.sh nossl
+> $ sudo ./scripts/init_nginx_conf.sh --nossl
 Script create nginx.conf file without using ssl.
 
 docker-compose -f docker-compose.yml exec web python manage.py migrate
