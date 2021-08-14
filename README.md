@@ -169,6 +169,6 @@ If you do not want use SSL, then do command:
 Script create nginx.conf file without using ssl.
 
 docker-compose -f docker-compose.yml exec web python manage.py migrate
-
+ 
 8. Running project
 docker-compose up -d
