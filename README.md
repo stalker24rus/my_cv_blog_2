@@ -114,86 +114,53 @@ Type zsh and tune zsh for you
 
 ------------
 
-7. Prepare system for working with a Docker
+7. Prepare system for working with project   
+7.1. Create .env file with environments setting in /usr/src/apps/my_cv_blog_2  
+> $ sudo touch .env && vim .env   
 
-7.1. Create .env file with environments setting in /usr/src/apps/my_cv_blog_2 
-> $ sudo touch .env && vim .env
-
-7.2. Add environments values in file:
-
-> \#Databse setting  
+7.2. Add environments values in .env-file:    
 > DB_NAME=  
 > DB_USER=  
-> DB_PW=  
-> DB_VOLUME=/var/lib/postgresql  
->  
-> \# Django project settings  
-> \# For generating django secret key you can use some generator from search in google  
-> \# like https://djecrety.ir/ or  
-> \# https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django  
+> DB_PW=    
+> DJANGO_ENV_ALLOWED_HOSTS=   
 > DJANGO_ENV_SECRET_KEY=   
 > DJANGO_ENV_EMAIL_HOST=   
 > DJANGO_ENV_EMAIL_PORT=   
-> DJANGO_ENV_EMAIL_HOST_USER=   
+> DJANGO_ENV_EMAIL_HOST_USER=    
 > DJANGO_ENV_EMAIL_HOST_PASSWORD=   
-> DJANGO_ENV_LOG_PATH=/var/log/django/  
->   
-> \# Path with static and media source for www on host mashine  
-> PROJECT_WWW_PATH=/usr/src/www/  
-> DJANGO_ENV_WWW_PATH=/usr/src/www/ 
-> \# Gunicorn settings
-> GUNICORN_LOG_PATH= /var/log/gunicorn   
->  
-> \# Nginx   
-> NGINX_LOG_PATH=/var/log/nginx  
-> \# If used sertificate if do not then need change file nginx/nginx.conf  
-> NGINX_SSL_PATH=/etc/nginx/ssl  
 
-7.3. After that you need create directories shown in .env with previlages on server:   
+P.S. For generating django secret key you can use some generator from search in Google, 
+like https://djecrety.ir/ or 
+https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django
 
-<!--
-7.3.1. Create user on server for docker user   
-> $ sudo useradd nginx   
-> $ sudo useradd appuser   
-> $ sudo useradd postgres   
+7.3. Create dirs for using in project   
+For  project use into docker container id for :    
+Run bash-script from app directory:   
+> $ sudo ./scripts/init_dirs.sh   
 
-7.3.2. Add main user to the new user group
-> $ sudo usermod -aG nginx nonroot   
-> $ sudo usermod -aG appuser nonroot   
-> $ sudo usermod -aG postgres nonroot  
-
-Ckeck main user groups
-> $ groups nonroot
--->
-
-7.3.3. Create dirs and change previlages   
-> $ sudo mkdir -p /var/log/nginx && sudo chown nginx:nginx /var/log/nginx   
-> $ sudo mkdir -p /etc/nginx/ssl
-> $ sudo mkdir -p /var/log/gunicorn && sudo chown appuser:appuser /var/log/gunicorn   
-> $ sudo mkdir -p /var/log/django && sudo chown appuser:appuser /var/log/django    
-> $ sudo mkdir -p /usr/src/www/assets
-> $ sudo mkdir -p /usr/src/www/media
-> $ sudo mkdir -p /usr/src/www/static    
-> $ sudo mkdir -p /var/lib/postgresql && sudo chown postgres:postgres /var/lib/postgresql   
+After will be create and configure dirs:    
+- /var/lib/postgresql   
+- /var/log/django   
+- /var/log/gunicorn   
+- /var/log/nginx   
+- /usr/src/www/assets   
+- /usr/src/www/media    
+- /usr/src/www/static     
 
 
-7.3.4. Add SSL serts into /etc/nginx/ssl
+7.4. Initialize the nginx.conf file 
 
-create dirs for works
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/nginx  
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/gunicorn  
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/django   
-> sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql   
-> sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql/data
-> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/assets
-> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/media
-> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/static
+If you use SSL the command:   
+> $ sudo ./scripts/init_nginx_conf.sh ssl prefix_crt
 
+Script create ssl-dir on path /etc/nginx/ssl and create nginx.conf file with prefix for .crt-file.
+After copy your ssl sert (.crt-file) to /etc/nginx/ssl on your server.
 
-allow ip of host for django 79.143.29.118
+If you do not want use SSL, then do command:
+> $ sudo ./scripts/init_nginx_conf.sh nossl
+Script create nginx.conf file without using ssl.
+
 docker-compose -f docker-compose.yml exec web python manage.py migrate
-
-
 
 8. Running project
 docker-compose up -d
