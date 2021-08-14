@@ -19,10 +19,10 @@ If you want only check how to work project without deploying to server, then see
 > passwd: password updated successfully  
 
 1.2. Add user to sudorer user group
-> serv:~# usermod -aG sudo stalker
+> serv:~# usermod -aG sudo nonroot
 
 1.3. Check privileges  
-> $ su - stalker  
+> $ su - nonroot
 > $ sudo ls -l /root  
 > total 0  
 
@@ -117,11 +117,11 @@ Type zsh and tune zsh for you
 7. Prepare system for working with a Docker
 
 7.1. Create .env file with environments setting in /usr/src/apps/my_cv_blog_2 
-> $ touch .env && vim .env
+> $ sudo touch .env && vim .env
 
 7.2. Add environments values in file:
 
-> \#Databse setting 
+> \#Databse setting  
 > DB_NAME=  
 > DB_USER=  
 > DB_PW=  
@@ -140,8 +140,8 @@ Type zsh and tune zsh for you
 >   
 > \# Path with static and media source for www on host mashine  
 > PROJECT_WWW_PATH=/usr/src/www/  
->   
-> \# Gunicorn settings   
+> DJANGO_ENV_WWW_PATH=/usr/src/www/ 
+> \# Gunicorn settings
 > GUNICORN_LOG_PATH= /var/log/gunicorn   
 >  
 > \# Nginx   
@@ -149,15 +149,51 @@ Type zsh and tune zsh for you
 > \# If used sertificate if do not then need change file nginx/nginx.conf  
 > NGINX_SSL_PATH=/etc/nginx/ssl  
 
-7.3. After that you need create directories shown in .env with previlages on server:
+7.3. After that you need create directories shown in .env with previlages on server:   
 
-#TODO change paragraph and need read how corectly change privilages on dirs for working with docker volumes
+<!--
+7.3.1. Create user on server for docker user   
+> $ sudo useradd nginx   
+> $ sudo useradd appuser   
+> $ sudo useradd postgres   
 
+7.3.2. Add main user to the new user group
+> $ sudo usermod -aG nginx nonroot   
+> $ sudo usermod -aG appuser nonroot   
+> $ sudo usermod -aG postgres nonroot  
+
+Ckeck main user groups
+> $ groups nonroot
+-->
+
+7.3.3. Create dirs and change previlages   
+> $ sudo mkdir -p /var/log/nginx && sudo chown nginx:nginx /var/log/nginx   
+> $ sudo mkdir -p /etc/nginx/ssl
+> $ sudo mkdir -p /var/log/gunicorn && sudo chown appuser:appuser /var/log/gunicorn   
+> $ sudo mkdir -p /var/log/django && sudo chown appuser:appuser /var/log/django    
+> $ sudo mkdir -p /usr/src/www/assets
+> $ sudo mkdir -p /usr/src/www/media
+> $ sudo mkdir -p /usr/src/www/static    
+> $ sudo mkdir -p /var/lib/postgresql && sudo chown postgres:postgres /var/lib/postgresql   
+
+
+7.3.4. Add SSL serts into /etc/nginx/ssl
+
+create dirs for works
 > sudo chmod u=rwx,g=rwx,o=rwx /var/log/nginx  
 > sudo chmod u=rwx,g=rwx,o=rwx /var/log/gunicorn  
-> sudo chmod u=rwx,g=rwx,o=rwx /var/log/django  
-> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www  
+> sudo chmod u=rwx,g=rwx,o=rwx /var/log/django   
 > sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql   
+> sudo chmod u=rwx,g=rwx,o=rwx /var/lib/postgresql/data
+> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/assets
+> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/media
+> sudo chmod u=rwx,g=rwx,o=rwx /usr/src/www/static
+
+
+allow ip of host for django 79.143.29.118
+docker-compose -f docker-compose.yml exec web python manage.py migrate
+
+
 
 8. Running project
-
+docker-compose up -d

@@ -11,12 +11,7 @@ SECRET_KEY = os.getenv('DJANGO_ENV_SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost',
-                 '127.0.0.1',
-                 '0.0.0.0',
-                 '80.249.148.42',
-                 'iakovenko.tech',
-                 ]
+ALLOWED_HOSTS = os.environ.get('DJANGO_ENV_ALLOWED_HOSTS', 'localhost').split(',')
 
 SITE_ID = 1
 
