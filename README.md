@@ -300,5 +300,4 @@ to clean data base:
 > $ docker-compose -f docker-compose.yml exec bash
 > psql blog
 > CREATE EXTENSION pg_trgm;
->```
-
+>``` 
