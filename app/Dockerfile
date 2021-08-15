@@ -17,6 +17,10 @@ COPY ./config/gunicorn /usr/src/config/gunicorn
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-RUN useradd appuser && chown -R appuser /usr/src/app
+RUN useradd appuser
 RUN usermod -u 1102 appuser && groupmod -g 1102 appuser
+RUN chown -R appuser:appuser /usr/src/app
+RUN chown -R appuser:appuser /usr/local/lib/python3.9
+
+
 USER appuser
