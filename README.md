@@ -6,7 +6,7 @@ Site powered on Django framework. Project run on Docker conteiner: Nginx, Apps(P
 
 
 Let's start:
-If you want only check how to work project without deploying to server and you have installed , then start from 6 paragraph. 
+If you want only check how to work project without deploying to server and you have installed Docker/Docker-compose and curl, then start from 6 paragraph. 
 
 ------------
 
@@ -20,38 +20,43 @@ All opeartion executed in the shell.
 1.0. Connect to server by SSH.  
 1.1. Add new sudo user   
 
->```console
-> useradd nonroot   
-```
+>```console   
+> $ useradd nonroot   
+>```   
 
->```console
-> passwd nonroot  
->```
-
->```console
+>```console   
+> $ passwd nonroot   
+>```   
+   
+>```console   
 > New password:  
 > Retype new password:  
 > passwd: password updated successfully  
-> ```
-
-1.2. Add user to sudorer user group
-> ```console
-> usermod -aG sudo nonroot
-> ```
-
-1.3. Check privileges  
->```console
-> su - nonroot
->```
+>```   
+    
+1.2. Add user to sudorer user group   
 
 >```console   
-> sudo ls -l /root  
-> ```
+> $ usermod -aG sudo nonroot    
+>```   
+    
+1.3. Check privileges    
 
-1.4. Add home directory with .ssh dir and wtite public key in authorized_keys for nonroot user
->```console
-> sudo mkhomedir_helper nonroot
->```
+>```console   
+> $ su - nonroot    
+>```   
+   
+>```console    
+> $ sudo ls -l /root  
+>```    
+
+
+1.4. Add home directory with .ssh dir and wtite public key in authorized_keys for nonroot user   
+   
+>```console   
+> $ sudo mkhomedir_helper nonroot   
+>```   
+   
 
 >```console
 > $ vi ~/.ssh/authorized_keys
