@@ -1,22 +1,34 @@
-WELLCOME!
+PERSONAL SITE
 ---
+It is project of [My site with blog](https://iakovenko.tech).
+Site powered on Django framework. Project run on Docker conteiner: Nginx, Apps(Python3,
+ Django, Gunicorn), Postgres. Site server based on Linux distr (In my case I use Ubuntu 20.10), all instalation instruction write for deploying on that system.
 
-It is project of the my site with blog. Site Powered on Django framework.  
-You need use some linux distribution kit, in my case I use remote server based on Ubuntu 20.10.  
-You can use the source code if you want for free.   
-But please do not use information from my cv, and rename blog page ([ Я : blognote ]) =).  
-If you want only check how to work project without deploying to server, then see 6 paragraph.  
- []
+
+Let's start:
+If you want only check how to work project without deploying to server and you have installed , then start from 6 paragraph. 
+
 ------------
 
 # INSTALATION
 
+------------
+
+All opeartion executed in the shell. 
+
 1. Security setups  
 1.0. Connect to server by SSH.  
 1.1. Add new sudo user   
+
 >```console
-> $ useradd nonroot   
-> $ passwd nonroot  
+> useradd nonroot   
+```
+
+>```console
+> passwd nonroot  
+>```
+
+>```console
 > New password:  
 > Retype new password:  
 > passwd: password updated successfully  
@@ -24,32 +36,43 @@ If you want only check how to work project without deploying to server, then see
 
 1.2. Add user to sudorer user group
 > ```console
-> serv:~# usermod -aG sudo nonroot
+> usermod -aG sudo nonroot
 > ```
 
 1.3. Check privileges  
 >```console
-> $ su - nonroot   
-> $ sudo ls -l /root  
-> total 0  
+> su - nonroot
+>```
+
+>```console   
+> sudo ls -l /root  
 > ```
 
-1.4. Add home directory with .ssh dir and authorized_keys file for nonroot user
+1.4. Add home directory with .ssh dir and wtite public key in authorized_keys for nonroot user
 >```console
-> $ sudo mkhomedir_helper nonroot
+> sudo mkhomedir_helper nonroot
+>```
+
+>```console
 > $ vi ~/.ssh/authorized_keys
 >```
+Next enter the SSH public key. 
 
-Enter the SSH public key or if you already using public key by root user see steps below.
+If you already using public key by root user see steps below.
 >```console
 > $ su root
-> $ cat /root/.ssh/authorized_keys > /home/nonroot/.ssh/authorized_keys
-> $ su nonroot
 >```
 
-Now check connection from other the Terminal, and then do next steps, or fix issue.
+>```console
+> $ cat /root/.ssh/authorized_keys > /home/nonroot/.ssh/authorized_keys
+>```
 
-1.5.Change settings in sshd config file  
+>```console
+> $ su nonroot
+>```
+! Now check connection from other the Terminal and then do next steps or fix issue.
+
+1.5. Change settings in sshd config file  
 >```console
 > $ vi /etc/ssh/sshd_config  
 >```
@@ -61,22 +84,20 @@ Search and change:
 > Port 55555  
 >```
   
-Number of port maybe any.  
+* Number of port maybe any.  
 
-1.6 Restart sshd  
+1.6. Restart sshd  
 >```console
 > $ sudo service sshd restart  
 >```
 
-
 ------------
-2. Install general pakages
 
+2. Install general pakages
 2.1. Type big string from here
 >```console
 > $ sudo apt-get update && sudo apt-get install -y vim zsh tmux htop git curl wget unzip zip gcc build-essential make w3m
 >```
-
 
 2.2. Change shell to zsh:
 >```console
@@ -91,18 +112,28 @@ Type zsh and tune zsh for you
 ------------
 
 3. Install Git
-3.1. By default the linux distrs have Git, if not then do command:
+3.1. By default the some linux distrs have Git, if it  not then do command:
 >```console
 > $ sudo apt install git
 >```
 
 ------------ 
+
 4. Install Docker
 4.1. Prepere, install some the packages and do settings   
 >```console
 > $ sudo apt install apt-transport-https ca-certificates software-properties-common  
+>```
+
+>```console
 > $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -  
+>```
+
+>```console
 > $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"  
+>```
+
+>```console
 > $ sudo apt update  
 >```
 
@@ -128,23 +159,24 @@ Type zsh and tune zsh for you
 
 ------------
 
-5. Install Docker-compose
-5.1. Check last version on https://github.com/docker/compose/releases
-
-5.2. Get and install:
+5. Install Docker-compose   
+5.1. Check last version on https://github.com/docker/compose/releases   
+5.2. Get and install:   
 >```console
 > $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 >```
 
-5.3. Do executable:
+5.3. Do executable:   
 >```console
 > sudo chmod +x /usr/local/bin/docker-compose
->```
+>```   
 
-5.4. Check:
+5.4. Check:   
 >```console
 > $ docker-compose --version
 >```
+
+-----------
 
 6. Install project from github
 6.1. First create project directory and go to there:
@@ -170,12 +202,12 @@ Type zsh and tune zsh for you
 ------------
 
 7. Prepare system for working with project   
-7.1. Create .env file with environments setting in /usr/src/apps/my_cv_blog_2  
+7.1. Create the .env file with environments settings in /usr/src/apps/my_cv_blog_2  
 >```console
 > $ sudo touch .env && sudo vim .env   
 >```
 
-7.2. Add environments values in .env-file:    
+7.2. Add environments values in a .env file:    
 >```console
 > DB_NAME=  
 > DB_USER=  
