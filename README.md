@@ -265,15 +265,40 @@ If you do not want use SSL, then do command:
 > $ sudo ./scripts/init_nginx_conf.sh --nossl
 >```
 Script create nginx.conf file without using ssl.
-
-
-docker-compose -f docker-compose.yml exec web python manage.py migrate
  
 
-8. Running project   
-docker-compose up -d
+8. Run project   
 
-psql blog
-Then, execute the following command to install the pg_trgm extension: CREATE EXTENSION pg_trgm;
+8.1. Run container with builds:
+>```console
+> $ docker-compose up -d
+>```
 
+8.2. After build images and running containers, first need migrate Django data model for blog app 
+to clean data base:
+
+>```console
+> $ docker-compose -f docker-compose.yml exec web python manage.py makemigrations blog && \
+> docker-compose -f docker-compose.yml exec web python manage.py migrate
+>```
+
+8.3. Create super-user for postgres data base:
+>```console
+>docker-compose -f docker-compose.yml exec web python manage.py createsuperuser
+>```
+
+8.4. Collect project static files
+
+>```console
+> $ docker-compose -f docker-compose.yml exec web python manage.py collectstatic
+>```
+! collectstatic need do when you will change static files.
+
+8.5. For support search on trigram similarity need do next step:
+
+>```console
+> $ docker-compose -f docker-compose.yml exec bash
+> psql blog
+> CREATE EXTENSION pg_trgm;
+>```
 
