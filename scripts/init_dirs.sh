@@ -1,6 +1,7 @@
 #!/bin/bash
 # Create dirs for using with docker volumes
-mkdir /var/lib/postgresql \
+mkdir -p /var/lib/postgresql \
+        /var/lib/postgresql/data \
         /var/log/django \
         /var/log/gunicorn \
         /var/log/nginx \
@@ -20,12 +21,15 @@ chown -R :1102 /var/log/django \
         /usr/src/www/media \
         /usr/src/www/static
 
-chown -R :1103 /var/lib/postgresql
+chown -R 1103:1103 /var/lib/postgresql \
+	/var/lib/postgresql/data
+
 
 echo "Owner group is changed"
 
 # Add permissions for group
 chmod -R 775 /var/lib/postgresql \
+	/var/lib/postgresql/data \
         /var/log/django \
         /var/log/gunicorn \
         /var/log/nginx \

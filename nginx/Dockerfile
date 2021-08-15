@@ -17,6 +17,8 @@ RUN chown -R nginx:nginx /usr/src/www/media && \
 RUN touch /var/run/nginx.pid && \
         chown -R nginx:nginx /var/run/nginx.pid
 
+RUN usermod -u 1101 nginx && groupmod -g 1101 nginx
+
 USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]

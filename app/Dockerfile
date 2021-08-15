@@ -18,4 +18,5 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 RUN useradd appuser && chown -R appuser /usr/src/app
+RUN usermod -u 1102 appuser && groupmod -g 1102 appuser
 USER appuser

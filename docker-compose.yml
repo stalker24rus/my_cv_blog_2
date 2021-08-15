@@ -2,14 +2,14 @@ version: "3.9"
 
 services:
   db:
-    image: postgres
+    build: ./postgres
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}
-    user: postgres
+    # user: postgres
 
   web:
     build: ./app
