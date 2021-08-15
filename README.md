@@ -54,32 +54,25 @@ All opeartion executed in the shell.
 1.4. Add home directory with .ssh dir and wtite public key in authorized_keys for nonroot user   
    
 >```console   
-> $ sudo mkhomedir_helper nonroot   
+> $ sudo mkhomedir_helper nonroot && mkdir /home/nonroot/.ssh && touch /home/nonroot/.ssh/authorized_keys  
 >```   
    
-
 >```console
 > $ vi ~/.ssh/authorized_keys
 >```
 Next enter the SSH public key. 
 
-If you already using public key by root user see steps below.
->```console
-> $ su root
->```
+If you already using public key by root user see step below.
 
 >```console
-> $ cat /root/.ssh/authorized_keys > /home/nonroot/.ssh/authorized_keys
+> $ sudo cat /root/.ssh/authorized_keys > /home/nonroot/.ssh/authorized_keys
 >```
 
->```console
-> $ su nonroot
->```
-! Now check connection from other the Terminal and then do next steps or fix issue.
+! Now check connection from other terminal on new user and then do next steps or fix issue.
 
 1.5. Change settings in sshd config file  
 >```console
-> $ vi /etc/ssh/sshd_config  
+> $ sudo vi /etc/ssh/sshd_config  
 >```
 
 Search and change:  
@@ -98,33 +91,38 @@ Search and change:
 
 ------------
 
-2. Install general pakages
-2.1. Type big string from here
+2. Install general pakages   
+2.1. Type big string from here   
 >```console
 > $ sudo apt-get update && sudo apt-get install -y vim zsh tmux htop git curl wget unzip zip gcc build-essential make w3m
 >```
 
-2.2. Change shell to zsh:
+2.2. Change shell to zsh:   
 >```console
-> $chsh -s $(which zsh)  
+> $ chsh -s $(which zsh)  
 >```
 
-Type zsh and tune zsh for you  
+Type zsh and tune zsh for you     
 >```console
-> zsh
+> $ zsh
+>```
+
+Install Oh-my-zsh for your comfort   
+>```console
+> $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 >```
 
 ------------
 
-3. Install Git
-3.1. By default the some linux distrs have Git, if it  not then do command:
+3. Install Git   
+3.1. By default the some linux distrs have Git, if it  not then do command:  
 >```console
 > $ sudo apt install git
 >```
 
 ------------ 
 
-4. Install Docker
+4. Install Docker  
 4.1. Prepere, install some the packages and do settings   
 >```console
 > $ sudo apt install apt-transport-https ca-certificates software-properties-common  
@@ -142,25 +140,27 @@ Type zsh and tune zsh for you
 > $ sudo apt update  
 >```
 
-4.2. Check place for download the docker package
+4.2. Check place for download the docker package   
 >```console
 > $ apt-cache policy docker-ce
 >```
 
-4.3. Install docker
+4.3. Install docker   
 >```console
 > $ sudo apt install docker-ce
 >```
 
-4.4. Check status
+4.4. Check status   
 >```console
 > $ sudo systemctl status docker
 >```
 
-4.5. Add current user to docker group
+4.5. Add current user to docker group   
 >```console
 > $ sudo usermod -aG docker ${USER}
 >```
+
+4.6. And last last step re-login in system.
 
 ------------
 
@@ -173,7 +173,7 @@ Type zsh and tune zsh for you
 
 5.3. Do executable:   
 >```console
-> sudo chmod +x /usr/local/bin/docker-compose
+> $ sudo chmod +x /usr/local/bin/docker-compose
 >```   
 
 5.4. Check:   
@@ -183,23 +183,23 @@ Type zsh and tune zsh for you
 
 -----------
 
-6. Install project from github
-6.1. First create project directory and go to there:
+6. Install project from github   
+6.1. First create project directory and go to there:   
 >```console
 > $ sudo mkdir -p /usr/src/apps/ && cd /usr/src/apps/
 >```
 
-6.2. Clone project from git
+6.2. Clone project from git   
 >```console
 > $ sudo git clone https://github.com/stalker24rus/my_cv_blog_2.git
 >```
 
-6.3. Check project
+6.3. Check project   
 >```console
 > $ ls -l
 >```
 
-6.4. Go to my_cv_blog_2
+6.4. Go to my_cv_blog_2   
 >```console
 > $ cd my_cv_blog_2
 >```
@@ -223,6 +223,8 @@ Type zsh and tune zsh for you
 > DJANGO_ENV_EMAIL_PORT=   
 > DJANGO_ENV_EMAIL_HOST_USER=    
 > DJANGO_ENV_EMAIL_HOST_PASSWORD=   
+> DJANGO_ENV_LOG_PATH=/var/log/django/
+> DJANGO_ENV_WWW_PATH=/usr/src/www/
 >```
 
 P.S. For generating django secret key you can use some generator from search in Google, 
@@ -246,7 +248,7 @@ After will be create and configure dirs:
 - /usr/src/www/static     
 
 
-7.4. Initialize the nginx.conf file 
+7.4. Initialize the nginx.conf file   
 
 If you use SSL the command:   
 >```console
@@ -264,7 +266,14 @@ If you do not want use SSL, then do command:
 >```
 Script create nginx.conf file without using ssl.
 
+
 docker-compose -f docker-compose.yml exec web python manage.py migrate
  
-8. Running project
+
+8. Running project   
 docker-compose up -d
+
+psql blog
+Then, execute the following command to install the pg_trgm extension: CREATE EXTENSION pg_trgm;
+
+
