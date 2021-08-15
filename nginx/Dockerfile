@@ -8,16 +8,18 @@ RUN mkdir -p /etc/nginx/ssl
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 
+RUN usermod -u 1101 nginx && groupmod -g 1101 nginx
+
 ## add permissions for nginx user
 RUN chown -R nginx:nginx /var/cache/nginx /etc/nginx/
-RUN chown -R nginx:nginx /usr/src/www/media && \
-    chown -R nginx:nginx /usr/src/www/static && \
-    chown -R nginx:nginx /var/log/nginx && \
+RUN chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /etc/nginx/conf.d
+
+#RUN chown -R nginx:nginx /usr/src/www/media && \ 
+#    chown -R nginx:nginx /usr/src/www/static && \
+
 RUN touch /var/run/nginx.pid && \
         chown -R nginx:nginx /var/run/nginx.pid
-
-RUN usermod -u 1101 nginx && groupmod -g 1101 nginx
 
 USER nginx
 

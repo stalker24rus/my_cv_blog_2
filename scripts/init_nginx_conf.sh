@@ -63,8 +63,8 @@ server {
     error_log /var/log/nginx/error.log;    
     location / {
         proxy_pass http://my_cv_blog;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+	proxy_set_header Host \$host;
         proxy_redirect off;
     }  
 					        
