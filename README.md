@@ -278,13 +278,12 @@ Script create nginx.conf file without using ssl.
 to clean data base:
 
 >```console
-> $ docker-compose -f docker-compose.yml exec web python manage.py makemigrations blog && \
-> docker-compose -f docker-compose.yml exec web python manage.py migrate
+> $ docker-compose -f docker-compose.yml exec web python manage.py makemigrations blog && docker-compose -f docker-compose.yml exec web python manage.py migrate
 >```
 
 8.3. Create super-user for postgres data base:
 >```console
->docker-compose -f docker-compose.yml exec web python manage.py createsuperuser
+> $ docker-compose -f docker-compose.yml exec web python manage.py createsuperuser
 >```
 
 8.4. Collect project static files
@@ -294,10 +293,4 @@ to clean data base:
 >```
 ! collectstatic need do when you will change static files.
 
-8.5. For support search on trigram similarity need do next step:
-
->```console
-> $ docker-compose -f docker-compose.yml exec bash
-> psql blog
-> CREATE EXTENSION pg_trgm;
->``` 
+8.5 Last check running site.
