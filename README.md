@@ -1,4 +1,4 @@
-PERSONASONAL SITE WITH BLOG
+THE PERSONAL SITE WITH BLOG
 ---
 Project state:  work in progress
 
