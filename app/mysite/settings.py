@@ -102,9 +102,13 @@ USE_TZ = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(WWW_ROOT, 'static')
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(WWW_ROOT, 'media')
+
 STATICFILES_DIRS = (
     os.path.join(WWW_ROOT, 'assets'),
 )
@@ -116,7 +120,6 @@ EMAIL_HOST_USER = os.getenv('DJANGO_ENV_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('DJANGO_ENV_EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL =
-
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_REDIRECT_URL = '/blog'

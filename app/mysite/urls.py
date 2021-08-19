@@ -8,6 +8,7 @@ from cv import views as site_views
 from django.views.generic.base import RedirectView
 # from django.contrib.staticfiles.storage import staticfiles_storage
 
+
 sitemaps = {
     'posts': PostSitemap
 }

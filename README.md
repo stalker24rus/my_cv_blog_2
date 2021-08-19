@@ -3,14 +3,16 @@ THE PERSONAL SITE WITH BLOG
 Project state:  work in progress
 
 Description:
-It is the project of [my site](https://iakovenko.tech).
-Project powered on Django framework.
-Project based on the Docker conteiners: Nginx, Apps(Python3,
+It is source code of [my site](https://iakovenko.tech).
+I used Django framework for web-app and Docker conteiners for continuous delivery: Nginx, Apps(Python3,
  Django, Gunicorn), Postgres.
-Host mashine of site based on the Linux, in my case I use Ubuntu 20.04, all instruction on running write for this version.
+Host mashine of site based on the Linux, in my case I use Ubuntu 20.04, all instruction for run based on it version.
 
 Let's start:
 If you want only check how to work project without deploying to server and you have installed Docker/Docker-compose and curl, then start from 6 paragraph.
+
+
+Please check and give me feedback.
 
 ---
 INSTALATION
@@ -308,6 +310,3 @@ to data base:
 >```
 
 8.5 Open site in browser by IP.
-
-
-
