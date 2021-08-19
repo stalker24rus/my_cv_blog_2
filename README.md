@@ -233,7 +233,8 @@ For your comfort you can install Oh-my-zsh:
 >```console
 > DB_NAME=  
 > DB_USER=  
-> DB_PW=    
+> DB_PW=
+> DJANGO_ENV_ADMIN_PAGE=    
 > DJANGO_ENV_ALLOWED_HOSTS=   
 > DJANGO_ENV_SECRET_KEY=   
 > DJANGO_ENV_EMAIL_HOST=   

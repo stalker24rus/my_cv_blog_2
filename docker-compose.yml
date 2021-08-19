@@ -9,16 +9,19 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}
-    # user: postgres
+      POSTGRES_HOST: db
+      # user: postgres
 
   web:
     build: ./app
+    
     volumes:
      #- ./app:/usr/src/app  
      - /usr/src/www:/usr/src/www
      - /var/log/gunicorn:/var/log/gunicorn
      - /var/log/django:/var/log/django
     environment:
+      DJANGO_ENV_ADMIN_PAGE: ${DJANGO_ENV_ADMIN_PAGE}
       DJANGO_ENV_SECRET_KEY: ${DJANGO_ENV_SECRET_KEY}
       DJANGO_ENV_ALLOWED_HOSTS: ${DJANGO_ENV_ALLOWED_HOSTS}
       DJANGO_ENV_EMAIL_HOST: ${DJANGO_ENV_EMAIL_HOST}
