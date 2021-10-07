@@ -14,7 +14,7 @@ services:
 
   web:
     build: ./app
-    
+    restart: always
     volumes:
      #- ./app:/usr/src/app  
      - /usr/src/www:/usr/src/www
@@ -41,6 +41,7 @@ services:
 
   nginx:
      build: ./nginx
+     restart: always
      volumes:      
       - /usr/src/www:/usr/src/www
       - /var/log/nginx:/var/log/nginx

@@ -1,15 +1,18 @@
-## [Python-developer](/developer/)
+## [Web-developer](/developer/)
 
 ---
-На протяжении нескольких лет использовал Python для автоматизации небольших рутинных задач в области АСУ ТП.
-Оценив всю мощь и перспективность языка, нацелился на более глубокое изучение веб-разработки (back-end, front-end).
+Являясь специалистом в посторении систем автоматизации технологических процессов,
+на протяжении нескольких лет использовал Python для автоматизации небольших рутинных задач.
+Также имею опыт работы на JavaScript (React, Redux).
+
 
 Мой сайт и блог выполнен на Django, в качестве базы данных для блога использован Postgres, 
 был вдохновлен оформлением сайта [Karl'a Lorey](https://karllorey.com/).
-<!--За основу разрабатываемого [блога](/blog) взят каркас из книги [Django 3 By Example. Antonio Melé](https://www.packtpub.com/product/django-3-by-example-third-edition/9781838981952).-->
-___
+   
+---
+
 #### Stacks
-Base: Python3, Django, Flask   
+Base: Python3, Django, Flask, React, Redux
 Additional libraries: Pandas, PyQt/PySide, unittest  
 Servers, Deploy and CI: Linux, Docker/Docker-compose, Nginx, Gunicorn  
 Database: Postgres, MS SQL, SQLite, incl. SQLAlchemy, Django ORM  
@@ -23,14 +26,6 @@ English: Pre-Intermediate
 * работа в команде
 * проактивность
 * умение разобраться в чем угодно
-
----
-
-<!--
-####Сейчас изучаю:
-
-* [Django 3 By Example. Antonio Melé](https://www.packtpub.com/product/django-3-by-example-third-edition/9781838981952)
-* [Fluent Python. Luciano Ramalho](https://www.oreilly.com/library/view/fluent-python/9781491946237/)
 
 ---
 -->
